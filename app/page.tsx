@@ -2,16 +2,19 @@
 import React, { useEffect, useState } from "react";
 
 
+
 export default function Home() {
-  const [animationSetting, setAnimationSetting] = useState("");
+  const [animationSetting, setAnimationSetting] = useState("false");
 
   useEffect(() => {
-    const cookieValue = document.cookie
+    if (typeof window === 'object') {
+      const cookieValue = document.cookie
       .split("; ")
       .find((row) => row.startsWith("setting-Animation-Toggle-value="));
-    if (cookieValue) {
-      const value = cookieValue.split("=")[1];
-      setAnimationSetting(value);
+      if (cookieValue) {
+        const value = cookieValue.split("=")[1];
+        setAnimationSetting(value);
+      }
     }
   }, []);
   return (

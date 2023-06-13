@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { GetServerSideProps } from 'next';
 import { serialize } from 'cookie';
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const testCookieValue = req.cookies.test;
-
-  console.log(testCookieValue); // 쿠키 값 출력
-
-  return { props: {} };
-};
 
 function openSettingModal() {
   const modal = document.getElementById("settingModal");
@@ -27,10 +19,13 @@ function saveSetting(animationToggleValue: boolean) {
 
 export default function NavModals() {
   const [animationToggle, setAnimationToggle] = useState<boolean>(() => {
+    if (typeof window === 'undefined') {
+        return false
+    }
     const cookieValue = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("setting-Animation-Toggle-value="));
-    return cookieValue ? cookieValue.split("=")[1] === "true" : false;
+          .split("; ")
+          .find((row) => row.startsWith("setting-Animation-Toggle-value="));
+        return cookieValue ? cookieValue.split("=")[1] === "true" : false;
   });
 
   useEffect(() => {
